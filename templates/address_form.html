@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% if address %}Edit Address{% else %}Create Address{% endif %}</title>
+</head>
+<body>
+    <h1>{% if address %}Edit Address{% else %}Create Address{% endif %}</h1>
+    <form action="{{ form_action }}" method="post">
+
+        <label>Member:</label><br>
+        <select name="member_user_id" required>
+            {% for m in members %}
+            <option value="{{ m.member_user_id }}"
+                {% if address and address.member_user_id==m.member_user_id %}selected{% endif %}>
+                {{ m.member_user_id }} — {{ m.user.email }}
+            </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>House Number:</label><br>
+        <input type="text" name="house_number" value="{{ address.house_number if address else '' }}" required><br><br>
+
+        <label>Street:</label><br>
+        <input type="text" name="street" value="{{ address.street if address else '' }}" required><br><br>
+
+        <label>Town:</label><br>
+        <input type="text" name="town" value="{{ address.town if address else '' }}" required><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="{{ url_for('list_addresses') }}">Back</a></p>
+</body>
+</html>

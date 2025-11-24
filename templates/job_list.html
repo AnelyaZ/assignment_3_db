@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Jobs</title>
+</head>
+<body>
+    <h1>Jobs</h1>
+    <p><a href="{{ url_for('home') }}">Home</a></p>
+    <p><a href="{{ url_for('create_job') }}">Add job</a></p>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Job ID</th>
+            <th>Member</th>
+            <th>Caregiving Type</th>
+            <th>Other Requirements</th>
+            <th>Date Posted</th>
+            <th>Actions</th>
+        </tr>
+        {% for j in jobs %}
+        <tr>
+            <td>{{ j.job_id }}</td>
+            <td>{{ j.member.member_user_id }} — {{ j.member.user.email }}</td>
+            <td>{{ j.required_caregiving_type }}</td>
+            <td>{{ j.other_requirements }}</td>
+            <td>{{ j.date_posted }}</td>
+            <td>
+                <a href="{{ url_for('edit_job', job_id=j.job_id) }}">Edit</a>
+                <form action="{{ url_for('delete_job', job_id=j.job_id) }}" method="post" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Delete job?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

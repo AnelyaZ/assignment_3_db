@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% if member %}Edit Member{% else %}Create Member{% endif %}</title>
+</head>
+<body>
+    <h1>{% if member %}Edit Member{% else %}Create Member{% endif %}</h1>
+    <form action="{{ form_action }}" method="post">
+
+        {% if not member %}
+            <label>User ID:</label><br>
+            <select name="member_user_id" required>
+                {% for u in users %}
+                <option value="{{ u.user_id }}">{{ u.user_id }} — {{ u.email }}</option>
+                {% endfor %}
+            </select><br><br>
+        {% else %}
+            <p>User: {{ member.user.user_id }} — {{ member.user.email }}</p>
+        {% endif %}
+
+        <label>House Rules:</label><br>
+        <textarea name="house_rules" rows="3" cols="40" required>{{ member.house_rules if member else '' }}</textarea><br><br>
+
+        <label>Dependent Description:</label><br>
+        <textarea name="dependent_description" rows="3" cols="40" required>{{ member.dependent_description if member else '' }}</textarea><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="{{ url_for('list_members') }}">Back</a></p>
+</body>
+</html>

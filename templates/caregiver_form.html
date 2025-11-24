@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% if caregiver %}Edit Caregiver{% else %}Create Caregiver{% endif %}</title>
+</head>
+<body>
+    <h1>{% if caregiver %}Edit Caregiver{% else %}Create Caregiver{% endif %}</h1>
+    <form action="{{ form_action }}" method="post">
+
+        {% if not caregiver %}
+            <label>User ID (must exist in USER):</label><br>
+            <select name="caregiver_user_id" required>
+                {% for u in users %}
+                <option value="{{ u.user_id }}">{{ u.user_id }} — {{ u.email }}</option>
+                {% endfor %}
+            </select><br><br>
+        {% else %}
+            <p>User: {{ caregiver.user.user_id }} — {{ caregiver.user.email }}</p>
+        {% endif %}
+
+        <label>Photo filename:</label><br>
+        <input type="text" name="photo" value="{{ caregiver.photo if caregiver else '' }}"><br><br>
+
+        <label>Gender:</label><br>
+        <input type="text" name="gender" value="{{ caregiver.gender if caregiver else '' }}"><br><br>
+
+        <label>Caregiving Type:</label><br>
+        <select name="caregiving_type" required>
+            <option value="babysitter" {% if caregiver and caregiver.caregiving_type=='babysitter' %}selected{% endif %}>Babysitter</option>
+            <option value="caregiver for elderly" {% if caregiver and caregiver.caregiving_type=='caregiver for elderly' %}selected{% endif %}>Caregiver for elderly</option>
+            <option value="playmate for children" {% if caregiver and caregiver.caregiving_type=='playmate for children' %}selected{% endif %}>Playmate for children</option>
+        </select><br><br>
+
+        <label>Hourly Rate:</label><br>
+        <input type="number" step="0.001" name="hourly_rate" value="{{ caregiver.hourly_rate if caregiver else '' }}"><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="{{ url_for('list_caregivers') }}">Back</a></p>
+</body>
+</html>

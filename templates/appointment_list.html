@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Appointments</title>
+</head>
+<body>
+    <h1>Appointments</h1>
+    <p><a href="{{ url_for('home') }}">Home</a></p>
+    <p><a href="{{ url_for('create_appointment') }}">Add appointment</a></p>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>ID</th>
+            <th>Caregiver</th>
+            <th>Member</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Hours</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for a in appointments %}
+        <tr>
+            <td>{{ a.appointment_id }}</td>
+            <td>{{ a.caregiver.caregiver_user_id }} — {{ a.caregiver.user.email }}</td>
+            <td>{{ a.member.member_user_id }} — {{ a.member.user.email }}</td>
+            <td>{{ a.appointment_date }}</td>
+            <td>{{ a.appointment_time }}</td>
+            <td>{{ a.work_hours }}</td>
+            <td>{{ a.status }}</td>
+            <td>
+                <a href="{{ url_for('edit_appointment', appointment_id=a.appointment_id) }}">Edit</a>
+                <form action="{{ url_for('delete_appointment', appointment_id=a.appointment_id) }}" method="post" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Delete appointment?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

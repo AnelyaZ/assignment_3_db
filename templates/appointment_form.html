@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% if appointment %}Edit Appointment{% else %}Create Appointment{% endif %}</title>
+</head>
+<body>
+    <h1>{% if appointment %}Edit Appointment{% else %}Create Appointment{% endif %}</h1>
+    <form action="{{ form_action }}" method="post">
+
+        <label>Caregiver:</label><br>
+        <select name="caregiver_user_id" required>
+            {% for c in caregivers %}
+            <option value="{{ c.caregiver_user_id }}"
+                {% if appointment and appointment.caregiver_user_id==c.caregiver_user_id %}selected{% endif %}>
+                {{ c.caregiver_user_id }} — {{ c.user.email }}
+            </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Member:</label><br>
+        <select name="member_user_id" required>
+            {% for m in members %}
+            <option value="{{ m.member_user_id }}"
+                {% if appointment and appointment.member_user_id==m.member_user_id %}selected{% endif %}>
+                {{ m.member_user_id }} — {{ m.user.email }}
+            </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Appointment Date:</label><br>
+        <input type="date" name="appointment_date" value="{{ appointment.appointment_date if appointment else '' }}" required><br><br>
+
+        <label>Appointment Time:</label><br>
+        <input type="time" name="appointment_time" value="{{ appointment.appointment_time if appointment else '' }}" required><br><br>
+
+        <label>Work Hours:</label><br>
+        <input type="number" name="work_hours" value="{{ appointment.work_hours if appointment else '' }}" required><br><br>
+
+        <label>Status:</label><br>
+        <select name="status" required>
+            <option value="pending" {% if appointment and appointment.status=='pending' %}selected{% endif %}>pending</option>
+            <option value="confirmed" {% if appointment and appointment.status=='confirmed' %}selected{% endif %}>confirmed</option>
+            <option value="declined" {% if appointment and appointment.status=='declined' %}selected{% endif %}>declined</option>
+        </select><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="{{ url_for('list_appointments') }}">Back</a></p>
+</body>
+</html>

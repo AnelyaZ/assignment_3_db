@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% if job %}Edit Job{% else %}Create Job{% endif %}</title>
+</head>
+<body>
+    <h1>{% if job %}Edit Job{% else %}Create Job{% endif %}</h1>
+    <form action="{{ form_action }}" method="post">
+
+        <label>Member:</label><br>
+        <select name="member_user_id" required>
+            {% for m in members %}
+            <option value="{{ m.member_user_id }}"
+                {% if job and job.member_user_id==m.member_user_id %}selected{% endif %}>
+                {{ m.member_user_id }} — {{ m.user.email }}
+            </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Required Caregiving Type:</label><br>
+        <select name="required_caregiving_type" required>
+            <option value="babysitter" {% if job and job.required_caregiving_type=='babysitter' %}selected{% endif %}>Babysitter</option>
+            <option value="caregiver for elderly" {% if job and job.required_caregiving_type=='caregiver for elderly' %}selected{% endif %}>Caregiver for elderly</option>
+            <option value="playmate for children" {% if job and job.required_caregiving_type=='playmate for children' %}selected{% endif %}>Playmate for children</option>
+        </select><br><br>
+
+        <label>Other Requirements:</label><br>
+        <textarea name="other_requirements" rows="3" cols="40">{{ job.other_requirements if job else '' }}</textarea><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="{{ url_for('list_jobs') }}">Back</a></p>
+</body>
+</html>

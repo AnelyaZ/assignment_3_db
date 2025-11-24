@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% if job_app %}Edit Job Application{% else %}Create Job Application{% endif %}</title>
+</head>
+<body>
+    <h1>{% if job_app %}Edit Job Application{% else %}Create Job Application{% endif %}</h1>
+    <form action="{{ form_action }}" method="post">
+
+        <label>Caregiver:</label><br>
+        <select name="caregiver_user_id" required>
+            {% for c in caregivers %}
+            <option value="{{ c.caregiver_user_id }}"
+                {% if job_app and job_app.caregiver_user_id==c.caregiver_user_id %}selected{% endif %}>
+                {{ c.caregiver_user_id }} — {{ c.user.email }}
+            </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Job:</label><br>
+        <select name="job_id" required>
+            {% for j in jobs %}
+            <option value="{{ j.job_id }}"
+                {% if job_app and job_app.job_id==j.job_id %}selected{% endif %}>
+                {{ j.job_id }} — {{ j.required_caregiving_type }}
+            </option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <p><a href="{{ url_for('list_job_applications') }}">Back</a></p>
+</body>
+</html>

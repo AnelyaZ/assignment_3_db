@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% if user %}Edit User{% else %}Create User{% endif %}</title>
+</head>
+<body>
+    <h1>{% if user %}Edit User{% else %}Create User{% endif %}</h1>
+    <form action="{{ form_action }}" method="post">
+        <label>Email:</label><br>
+        <input type="email" name="email" value="{{ user.email if user else '' }}" required><br><br>
+
+        <label>Given Name:</label><br>
+        <input type="text" name="given_name" value="{{ user.given_name if user else '' }}" required><br><br>
+
+        <label>Surname:</label><br>
+        <input type="text" name="surname" value="{{ user.surname if user else '' }}" required><br><br>
+
+        <label>City:</label><br>
+        <input type="text" name="city" value="{{ user.city if user else '' }}" required><br><br>
+
+        <label>Phone Number:</label><br>
+        <input type="text" name="phone_number" value="{{ user.phone_number if user else '' }}"><br><br>
+
+        <label>Profile Description:</label><br>
+        <textarea name="profile_description" rows="4" cols="40">{{ user.profile_description if user else '' }}</textarea><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" name="password" value="{{ user.password if user else '' }}" required><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+    <p><a href="{{ url_for('list_users') }}">Back to list</a></p>
+</body>
+</html>

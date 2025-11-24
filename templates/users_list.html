@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+    <h1>Users</h1>
+    <p><a href="{{ url_for('home') }}">Home</a></p>
+    <p><a href="{{ url_for('create_user') }}">Create new user</a></p>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Given Name</th>
+            <th>Surname</th>
+            <th>City</th>
+            <th>Phone</th>
+            <th>Profile</th>
+            <th>Actions</th>
+        </tr>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.user_id }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.given_name }}</td>
+            <td>{{ u.surname }}</td>
+            <td>{{ u.city }}</td>
+            <td>{{ u.phone_number }}</td>
+            <td>{{ u.profile_description }}</td>
+            <td>
+                <a href="{{ url_for('edit_user', user_id=u.user_id) }}">Edit</a>
+                <form action="{{ url_for('delete_user', user_id=u.user_id) }}" method="post" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Delete this user?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
